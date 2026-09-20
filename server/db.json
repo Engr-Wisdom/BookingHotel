@@ -1,0 +1,141 @@
+{
+  "hotels": [
+    {
+      "id": "1",
+      "name": "Velvet Nights Inn",
+      "address": "Beachfront Drive, CA, USA",
+      "location": "Los Angeles, California, USA",
+      "reviews": "200+ reviews",
+      "price": 120,
+      "rate": "4.9",
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+      "images": [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427",
+        "https://images.unsplash.com/photo-1601918774946-25832a4be0d6"
+      ],
+      "amenities": [
+        "Free Wifi",
+        "Free Breakfast",
+        "Room Service"
+      ],
+      "description": "A beautiful beachfront hotel offering comfortable rooms, excellent service, and a relaxing environment.",
+      "host": {
+        "name": "Emma Rodriguez",
+        "reviews": "200+ reviews",
+        "responseRate": "100%",
+        "responseTime": "30 minutes"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Ocean Paradise Hotel",
+      "address": "Ocean Avenue, Dubai",
+      "location": "Dubai, UAE",
+      "reviews": "150+ reviews",
+      "price": 350,
+      "rate": "4.8",
+      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+      "images": [
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+        "https://images.unsplash.com/photo-1564501049412-61c2a3083791",
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7"
+      ],
+      "amenities": [
+        "Free Wifi",
+        "Free Breakfast",
+        "Room Service"
+      ],
+      "description": "Luxury hotel located near the ocean with modern rooms and world-class hospitality.",
+      "host": {
+        "name": "Michael Johnson",
+        "reviews": "150+ reviews",
+        "responseRate": "98%",
+        "responseTime": "1 hour"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Luxury Beach Resort",
+      "address": "Palm Beach Road, Singapore",
+      "location": "Singapore",
+      "reviews": "300+ reviews",
+      "price": 550,
+      "rate": "5.0",
+      "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791",
+      "images": [
+        "https://images.unsplash.com/photo-1564501049412-61c2a3083791",
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7",
+        "https://images.unsplash.com/photo-1591088398332-8a7791972843"
+      ],
+      "amenities": [
+        "Free Wifi",
+        "Swimming Pool",
+        "Room Service"
+      ],
+      "description": "An elegant beach resort with premium rooms, amazing views, and exceptional comfort.",
+      "host": {
+        "name": "Sophia Lee",
+        "reviews": "300+ reviews",
+        "responseRate": "100%",
+        "responseTime": "20 minutes"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Mountain View Resort",
+      "address": "Mountain View Street, Switzerland",
+      "location": "Switzerland",
+      "reviews": "180+ reviews",
+      "price": 400,
+      "rate": "4.7",
+      "image": "https://images.unsplash.com/photo-1601918774946-25832a4be0d6",
+      "images": [
+        "https://images.unsplash.com/photo-1601918774946-25832a4be0d6",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427",
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461"
+      ],
+      "amenities": [
+        "Free Wifi",
+        "Free Breakfast",
+        "Room Service"
+      ],
+      "description": "A peaceful mountain resort surrounded by nature and beautiful landscapes.",
+      "host": {
+        "name": "Daniel Smith",
+        "reviews": "180+ reviews",
+        "responseRate": "97%",
+        "responseTime": "45 minutes"
+      }
+    }
+  ],
+  "users": [
+    {
+      "name": "Wisdom Effiong",
+      "email": "wisdomeffiong2008@gmail.com",
+      "phone": "08139906556",
+      "password": "123456789",
+      "id": "laXAYCxBevo"
+    }
+  ],
+  "bookings": [
+    {
+      "userId": "laXAYCxBevo",
+      "hotelId": "1",
+      "hotelName": "Velvet Nights Inn",
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+      "location": "Los Angeles, California, USA",
+      "checkIn": "2026-08-06",
+      "checkOut": "2026-08-10",
+      "guests": 2,
+      "totalPrice": 120,
+      "status": "Pending",
+      "id": "lsLlsuoH_1s"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
