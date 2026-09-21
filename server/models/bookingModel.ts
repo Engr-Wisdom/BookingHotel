@@ -112,6 +112,35 @@ export const getBookingsByUserId = async (
   return result.rows;
 };
 
+export const getBookingsByHotelOwnerId = async (
+  ownerId: number
+) => {
+  const result = await pool.query(
+    `
+    SELECT
+      b.id,
+      b.user_id,
+      b.hotel_id,
+      b.hotel_name,
+      b.image,
+      b.location,
+      b.check_in,
+      b.check_out,
+      b.guests,
+      b.total_price,
+      b.status
+    FROM bookings b
+    INNER JOIN hotels h
+      ON b.hotel_id = h.id
+    WHERE h.owner_id = $1
+    ORDER BY b.id DESC
+    `,
+    [ownerId]
+  );
+
+  return result.rows;
+};
+
 export const getBookingById = async (
   id: string
 ) => {

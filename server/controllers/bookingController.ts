@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 import pool from "../config/db.ts";
 
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+    role?: string;
+  };
+}
+
 interface BookingRow {
   id: number;
   user_id: number;
@@ -180,6 +187,65 @@ export const getBookingsByUser = async (
 
     res.status(500).json({
       message: "Failed to fetch bookings",
+    });
+  }
+};
+
+export const getBookingsByOwner = async (
+  req: AuthenticatedRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({
+        message: "Authentication required",
+      });
+      return;
+    }
+
+    if (req.user.role !== "hotel_owner") {
+      res.status(403).json({
+        message: "Access denied. Hotel owner account required.",
+      });
+      return;
+    }
+
+    const result = await pool.query<BookingRow>(
+      `
+      SELECT
+        b.id,
+        b.user_id,
+        b.hotel_id,
+        b.hotel_name,
+        b.image,
+        b.location,
+        b.check_in,
+        b.check_out,
+        b.guests,
+        b.total_price,
+        b.status
+      FROM bookings b
+      INNER JOIN hotels h
+        ON b.hotel_id = h.id
+      WHERE h.owner_id = $1
+      ORDER BY b.id DESC
+      `,
+      [req.user.id]
+    );
+
+    const bookings = result.rows.map(
+      (booking: BookingRow) => formatBooking(booking)
+    );
+
+    res.json(bookings);
+  } catch (error) {
+    console.error(
+      "Error fetching hotel owner bookings:",
+      error
+    );
+
+    res.status(500).json({
+      message: "Failed to fetch owner bookings",
     });
   }
 };

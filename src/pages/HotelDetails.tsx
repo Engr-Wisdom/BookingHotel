@@ -199,7 +199,7 @@ const HotelDetails = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main className="min-h-screen bg-white pt-24">
+      <main className="min-h-screen bg-gray-100 pt-25">
         {loading ? (
           <div className="flex min-h-[70vh] items-center justify-center bg-white px-6">
             <div className="flex flex-col items-center">

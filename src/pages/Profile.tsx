@@ -24,6 +24,9 @@ const Profile = () => {
     navigate("/login");
   };
 
+  const isHotelOwner =
+    user.role === "hotel_owner";
+
   return (
     <div>
       <Navbar />
@@ -39,8 +42,10 @@ const Profile = () => {
               </div>
 
               <button
-                onClick={() => navigate("/edit-profile")}
-                className="absolute bottom-0 right-0 rounded-full bg-blue-600 p-3 text-white"
+                onClick={() =>
+                  navigate("/edit-profile")
+                }
+                className="absolute bottom-0 right-0 rounded-full bg-blue-600 p-3 text-white transition hover:bg-blue-700"
               >
                 <FaEdit />
               </button>
@@ -51,7 +56,9 @@ const Profile = () => {
             </h1>
 
             <p className="mt-2 text-gray-500">
-              Hotel Booking Member
+              {isHotelOwner
+                ? "Hotel Owner"
+                : "Guest"}
             </p>
           </div>
 
@@ -84,7 +91,19 @@ const Profile = () => {
               </h3>
 
               <p className="mt-2 text-gray-600">
-                {"phone" in user ? (user as any).phone : "Not provided"}
+                {user.phone || "Not provided"}
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-5">
+              <h3 className="font-semibold text-gray-700">
+                Account Type
+              </h3>
+
+              <p className="mt-2 text-gray-600">
+                {isHotelOwner
+                  ? "Hotel Owner"
+                  : "Guest"}
               </p>
             </div>
 
@@ -95,7 +114,9 @@ const Profile = () => {
 
               <p className="mt-2 text-gray-600">
                 {user.createdAt
-                  ? new Date(user.createdAt).toDateString()
+                  ? new Date(
+                      user.createdAt
+                    ).toDateString()
                   : "Recently joined"}
               </p>
             </div>
@@ -105,22 +126,32 @@ const Profile = () => {
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             <button
-              onClick={() => navigate("/my-bookings")}
-              className="rounded-lg bg-gray-800 py-3 text-white hover:bg-gray-700"
+              onClick={() =>
+                navigate(
+                  isHotelOwner
+                    ? "/hotel-dashboard"
+                    : "/my-bookings"
+                )
+              }
+              className="rounded-lg bg-gray-800 py-3 font-semibold text-white transition hover:bg-gray-700"
             >
-              My Bookings
+              {isHotelOwner
+                ? "Hotel Dashboard"
+                : "My Bookings"}
             </button>
 
             <button
-              onClick={() => navigate("/edit-profile")}
-              className="rounded-lg border py-3 hover:bg-gray-100"
+              onClick={() =>
+                navigate("/edit-profile")
+              }
+              className="rounded-lg border py-3 transition hover:bg-gray-100"
             >
               Edit Profile
             </button>
 
             <button
               onClick={handleLogout}
-              className="rounded-lg border border-red-500 py-3 text-red-500 hover:bg-red-50"
+              className="rounded-lg border border-red-500 py-3 text-red-500 transition hover:bg-red-50"
             >
               Logout
             </button>

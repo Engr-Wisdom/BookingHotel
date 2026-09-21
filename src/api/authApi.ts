@@ -1,9 +1,14 @@
+export type UserRole =
+  | "guest"
+  | "hotel_owner";
+
 export interface User {
   id: number;
   name: string;
   email: string;
   phone?: string;
   avatar?: string;
+  role: UserRole;
   createdAt?: string;
 }
 

@@ -18,12 +18,24 @@ export const registerUser = async (
       phone,
       password,
       avatar,
+      role,
     } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       res.status(400).json({
         message:
-          "Name, email, and password are required",
+          "Name, email, password, and role are required",
+      });
+      return;
+    }
+
+    if (
+      role !== "guest" &&
+      role !== "hotel_owner"
+    ) {
+      res.status(400).json({
+        message:
+          "Role must be either guest or hotel_owner",
       });
       return;
     }
@@ -48,6 +60,7 @@ export const registerUser = async (
       phone,
       password: hashedPassword,
       avatar,
+      role,
     });
 
     res.status(201).json({
@@ -56,6 +69,7 @@ export const registerUser = async (
       email: user.email,
       phone: user.phone,
       avatar: user.avatar,
+      role: user.role,
       createdAt: user.created_at,
     });
   } catch (error) {
@@ -125,6 +139,7 @@ export const loginUser = async (
     const token = jwt.sign(
       {
         id: user.id,
+        role: user.role,
       },
       secret,
       {
@@ -139,6 +154,7 @@ export const loginUser = async (
         email: user.email,
         phone: user.phone,
         avatar: user.avatar,
+        role: user.role,
         createdAt: user.created_at,
       },
       token,

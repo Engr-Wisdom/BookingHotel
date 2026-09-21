@@ -56,7 +56,18 @@ export const AuthProvider = ({
       localStorage.getItem("hotel_user");
 
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        const parsedUser = JSON.parse(savedUser);
+
+        setUser(parsedUser);
+      } catch (error) {
+        console.error(
+          "Failed to load saved user:",
+          error
+        );
+
+        localStorage.removeItem("hotel_user");
+      }
     }
   }, []);
 
@@ -92,7 +103,11 @@ export const AuthProvider = ({
 
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Login failed:",
+        error
+      );
+
       return false;
     }
   };
@@ -107,7 +122,11 @@ export const AuthProvider = ({
 
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Registration failed:",
+        error
+      );
+
       return false;
     }
   };
@@ -132,7 +151,11 @@ export const AuthProvider = ({
 
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Failed to update user:",
+        error
+      );
+
       return false;
     }
   };

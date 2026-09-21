@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 interface AuthRequest extends Request {
   user?: {
     id: number;
+    role: "guest" | "hotel_owner";
   };
 }
 
@@ -42,10 +43,22 @@ export const authMiddleware = (
 
     const decoded = jwt.verify(token, secret) as {
       id: number;
+      role: "guest" | "hotel_owner";
     };
+
+    if (
+      typeof decoded.id !== "number" ||
+      (decoded.role !== "guest" && decoded.role !== "hotel_owner")
+    ) {
+      res.status(401).json({
+        message: "Invalid authentication token",
+      });
+      return;
+    }
 
     req.user = {
       id: decoded.id,
+      role: decoded.role,
     };
 
     next();
