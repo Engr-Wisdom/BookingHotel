@@ -41,8 +41,7 @@ export const registerUser = async (
 
   if (!response.ok) {
     throw new Error(
-      data.message ||
-        "Failed to register user"
+      data?.message || "Failed to register user"
     );
   }
 
@@ -75,7 +74,7 @@ export const loginUser = async (
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Login failed"
+      data?.message || "Login failed"
     );
   }
 
@@ -139,7 +138,7 @@ export const updateUserProfile = async (
 
   if (!response.ok) {
     throw new Error(
-      data.message ||
+      data?.message ||
         "Failed to update profile"
     );
   }
