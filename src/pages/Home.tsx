@@ -37,12 +37,13 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="w-full overflow-x-hidden">
       <Navbar />
 
       <Hero />
 
-      <div className="bg-gray-200 px-5 py-30 sm:px-10 lg:px-20">
+      {/* Featured Hotels */}
+      <section className="w-full bg-gray-200 px-5 py-20 sm:px-10 sm:py-24 lg:px-20 lg:py-30">
         <div className="flex flex-col items-center text-center">
           <h1 className="text-2xl sm:text-4xl">
             Featured Hotels
@@ -84,14 +85,12 @@ function Home() {
             </p>
           </div>
         ) : (
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-10 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {hotels.map((hotel) => (
               <div
                 key={hotel.id}
-                onClick={() =>
-                  navigate(`/hotel/${hotel.id}`)
-                }
-                className="cursor-pointer"
+                onClick={() => navigate(`/hotel/${hotel.id}`)}
+                className="min-w-0 cursor-pointer"
               >
                 <HotelCard
                   hotel={{
@@ -109,9 +108,10 @@ function Home() {
             ))}
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="px-5 py-30 sm:px-10 lg:px-20">
+      {/* Exclusive Offers */}
+      <section className="w-full px-5 py-20 sm:px-10 sm:py-24 lg:px-20 lg:py-30">
         <div className="max-w-2xl">
           <h1 className="text-2xl lg:text-4xl">
             Exclusive Offers
@@ -124,20 +124,20 @@ function Home() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {exclusiveOffers.map((offer, id) => (
             <div
               key={id}
-              className="group relative overflow-hidden rounded-3xl shadow-lg transition-all hover:-translate-y-2"
+              className="group relative min-w-0 overflow-hidden rounded-3xl shadow-lg transition-all hover:-translate-y-2"
             >
               <img
                 src={offer.image}
                 alt={offer.title}
-                className="h-full w-full object-cover transition duration-500"
+                className="h-[350px] w-full object-cover transition duration-500 sm:h-[380px]"
               />
 
-              <div className="absolute bottom-5 left-0 top-5 z-10 p-6 text-white">
-                <span className="rounded-full bg-white/20 px-4 py-1 text-sm font-semibold backdrop-blur-sm">
+              <div className="absolute inset-0 z-10 flex flex-col justify-start bg-black/20 p-5 text-white sm:p-6">
+                <span className="w-fit rounded-full bg-white/20 px-4 py-1 text-sm font-semibold backdrop-blur-sm">
                   {offer.priceOff}% OFF
                 </span>
 
@@ -153,16 +153,17 @@ function Home() {
                   Expires: {offer.expiryDate}
                 </p>
 
-                <button className="mt-4 rounded-full font-semibold transition hover:scale-105">
+                <button className="mt-4 w-fit rounded-full font-semibold transition hover:scale-105">
                   View Offers
                 </button>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="bg-gray-200 px-5 py-30 sm:px-10 lg:px-20">
+      {/* Testimonials */}
+      <section className="w-full bg-gray-200 px-5 py-20 sm:px-10 sm:py-24 lg:px-20 lg:py-30">
         <div className="flex flex-col items-center text-center font-semibold">
           <h1 className="text-2xl lg:text-4xl">
             What our Guests Say
@@ -175,25 +176,25 @@ function Home() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial, id) => (
             <div
               key={id}
-              className="rounded-2xl bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="min-w-0 rounded-2xl bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
               <div className="flex items-center gap-4">
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="h-16 w-16 rounded-full object-cover"
+                  className="h-16 w-16 shrink-0 rounded-full object-cover"
                 />
 
-                <div>
+                <div className="min-w-0">
                   <h2 className="text-lg font-semibold text-gray-800">
                     {testimonial.name}
                   </h2>
 
-                  <p className="text-sm text-gray-500">
+                  <p className="truncate text-sm text-gray-500">
                     {testimonial.address}
                   </p>
                 </div>
@@ -218,10 +219,11 @@ function Home() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="px-5 py-40 sm:px-10 lg:px-20">
-        <div className="flex flex-col items-center rounded-2xl bg-gray-800 p-10 text-center font-semibold text-white">
+      {/* Newsletter */}
+      <section className="w-full px-5 py-20 sm:px-10 sm:py-32 lg:px-20 lg:py-40">
+        <div className="flex w-full flex-col items-center rounded-2xl bg-gray-800 p-6 text-center font-semibold text-white sm:p-10">
           <h1 className="text-2xl lg:text-4xl">
             Stay Inspired
           </h1>
@@ -232,24 +234,24 @@ function Home() {
             inspiration.
           </p>
 
-          <div className="mt-10 flex items-center gap-10">
+          <div className="mt-10 flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:items-center">
             <input
-              type="text"
+              type="email"
               placeholder="Enter your email"
-              className="w-70 rounded border-2 bg-gray-700 p-2 outline-none"
+              className="w-full rounded border-2 border-gray-600 bg-gray-700 p-2 outline-none"
             />
 
-            <button className="cursor-pointer rounded bg-black px-5 p-2 text-white hover:bg-gray-900">
+            <button className="cursor-pointer rounded bg-black px-5 py-2 text-white transition hover:bg-gray-900">
               Subscribe
             </button>
           </div>
 
-          <p className="mt-10 font-light">
-            By subscribing, you agree to our Private Policy
+          <p className="mt-10 text-sm font-light">
+            By subscribing, you agree to our Privacy Policy
             and consent to receive updates.
           </p>
         </div>
-      </div>
+      </section>
 
       <Footer />
     </div>

@@ -8,7 +8,7 @@ const Contact = () => {
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
 
-      <div className="px-10 pt-32 pb-20 lg:px-20">
+      <div className="px-5 pt-32 pb-20 lg:px-20">
         {/* Hero Section */}
 
         <div className="rounded-3xl bg-gray-800 px-8 py-20 text-center text-white">
@@ -85,30 +85,30 @@ const Contact = () => {
               <input
                 type="text"
                 placeholder="Your name"
-                className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-gray-700"
+                className="w-full rounded-xl border border-gray-300 p-2 sm:p-4 outline-none focus:border-gray-700"
               />
 
               <input
                 type="email"
                 placeholder="Your email"
-                className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-gray-700"
+                className="w-full rounded-xl border border-gray-300 p-2 sm:p-4 outline-none focus:border-gray-700"
               />
 
               <input
                 type="text"
                 placeholder="Subject"
-                className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-gray-700"
+                className="w-full rounded-xl border border-gray-300 p-2 sm:p-4 outline-none focus:border-gray-700"
               />
 
               <textarea
                 rows={6}
                 placeholder="Write your message here..."
-                className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-gray-700"
+                className="w-full rounded-xl border border-gray-300 p-2 sm:p-4 outline-none focus:border-gray-700"
               />
 
               <button
                 type="submit"
-                className="w-full rounded-xl bg-gray-800 py-4 font-semibold text-white transition hover:bg-gray-700"
+                className="w-full rounded-xl bg-gray-800 py-3 sm:py-4font-semibold text-white transition hover:bg-gray-700"
               >
                 Send Message
               </button>
