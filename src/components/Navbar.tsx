@@ -91,11 +91,6 @@ function Navbar() {
         } h-[72px] w-full items-center gap-3 bg-gray-800 px-4 lg:hidden`}
       >
         <div className="flex flex-1 items-center gap-3 rounded-full bg-white px-4 py-2.5">
-          <img
-            src={assets.searchIcon}
-            alt="search"
-            className="w-5 shrink-0"
-          />
 
           <input
             autoFocus

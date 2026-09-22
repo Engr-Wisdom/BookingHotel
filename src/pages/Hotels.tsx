@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import HotelListCard from "../components/HotelListCard";
@@ -24,6 +25,8 @@ interface Hotel {
 }
 
 const Hotels = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +37,8 @@ const Hotels = () => {
   const [priceRange, setPriceRange] = useState("");
   const [sortBy, setSortBy] = useState("");
 
+  const searchTerm = searchParams.get("search") || "";
+
   useEffect(() => {
     const fetchHotels = async () => {
       try {
@@ -42,9 +47,7 @@ const Hotels = () => {
         const formattedHotels: Hotel[] = data.map(
           (hotel: any) => ({
             ...hotel,
-
             img: hotel.image,
-
             amenities: (hotel.amenities || []).map(
               (item: string) => ({
                 name: item,
@@ -67,6 +70,23 @@ const Hotels = () => {
 
   useEffect(() => {
     let result = [...hotels];
+
+    // Search filter
+    if (searchTerm.trim()) {
+      const search = searchTerm.trim().toLowerCase();
+
+      result = result.filter((hotel) => {
+        const name = hotel.name?.toLowerCase() || "";
+        const location = hotel.location?.toLowerCase() || "";
+        const address = hotel.address?.toLowerCase() || "";
+
+        return (
+          name.includes(search) ||
+          location.includes(search) ||
+          address.includes(search)
+        );
+      });
+    }
 
     // Amenity filter
     if (selectedAmenities.length > 0) {
@@ -117,18 +137,17 @@ const Hotels = () => {
 
     setFilteredHotels(result);
   }, [
+    hotels,
+    searchTerm,
     selectedAmenities,
     priceRange,
     sortBy,
-    hotels,
   ]);
 
   const handleAmenityChange = (
     amenity: string
   ) => {
-    if (
-      selectedAmenities.includes(amenity)
-    ) {
+    if (selectedAmenities.includes(amenity)) {
       setSelectedAmenities(
         selectedAmenities.filter(
           (item) => item !== amenity
@@ -146,6 +165,9 @@ const Hotels = () => {
     setSelectedAmenities([]);
     setPriceRange("");
     setSortBy("");
+
+    searchParams.delete("search");
+    setSearchParams(searchParams);
   };
 
   return (
@@ -153,81 +175,38 @@ const Hotels = () => {
       <Navbar />
 
       {loading ? (
-        // Loading state
-        <main
-          className="
-            flex
-            min-h-[calc(100vh-180px)]
-            items-center
-            justify-center
-            bg-white
-            px-5
-            pt-24
-          "
-        >
+        <main className="flex min-h-[calc(100vh-180px)] items-center justify-center bg-white px-5 pt-24">
           <div className="flex flex-col items-center justify-center">
-            <div
-              className="
-                h-10
-                w-10
-                animate-spin
-                rounded-full
-                border-4
-                border-gray-200
-                border-t-gray-800
-              "
-            />
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-gray-800" />
 
-            <p
-              className="
-                mt-5
-                text-lg
-                font-medium
-                text-gray-600
-              "
-            >
+            <p className="mt-5 text-lg font-medium text-gray-600">
               Loading hotels...
             </p>
           </div>
         </main>
       ) : (
-        // Hotels page
-        <main
-          className="
-            min-h-screen
-            bg-gray-100
-            px-10
-            py-32
-            lg:px-20
-          "
-        >
+        <main className="min-h-screen bg-gray-100 px-5 py-32 sm:px-8 lg:px-20">
           <div className="mb-10">
-            <h1
-              className="
-                text-3xl
-                font-bold
-                text-gray-800
-                lg:text-4xl
-              "
-            >
+            <h1 className="text-3xl font-bold text-gray-800 lg:text-4xl">
               Hotel Rooms
             </h1>
 
             <p className="mt-3 text-gray-600">
-              Discover amazing hotels around
-              the world and choose your perfect
-              stay.
+              Discover amazing hotels around the
+              world and choose your perfect stay.
             </p>
+
+            {searchTerm && (
+              <p className="mt-4 text-sm text-gray-600">
+                Search results for{" "}
+                <span className="font-semibold text-gray-800">
+                  "{searchTerm}"
+                </span>
+              </p>
+            )}
           </div>
 
-          <div
-            className="
-              grid
-              grid-cols-1
-              gap-8
-              lg:grid-cols-[1fr_350px]
-            "
-          >
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_350px]">
             {/* HOTEL LIST */}
 
             <div className="space-y-5">
@@ -239,49 +218,30 @@ const Hotels = () => {
                   />
                 ))
               ) : (
-                <p
-                  className="
-                    rounded-xl
-                    bg-white
-                    p-8
-                    text-center
-                  "
-                >
-                  No hotels found.
-                </p>
+                <div className="rounded-xl bg-white p-8 text-center">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    No hotels found
+                  </h2>
+
+                  <p className="mt-2 text-gray-500">
+                    We couldn't find any hotels matching
+                    your search or selected filters.
+                  </p>
+                </div>
               )}
             </div>
 
             {/* FILTER SIDEBAR */}
 
-            <div
-              className="
-                h-fit
-                rounded-2xl
-                bg-white
-                p-6
-                shadow-md
-              "
-            >
-              <div
-                className="
-                  mb-6
-                  flex
-                  items-center
-                  justify-between
-                "
-              >
+            <div className="h-fit rounded-2xl bg-white p-6 shadow-md">
+              <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-bold">
                   Filters
                 </h2>
 
                 <button
                   onClick={clearFilters}
-                  className="
-                    text-sm
-                    text-blue-600
-                    hover:text-blue-800
-                  "
+                  className="cursor-pointer text-sm text-blue-600 hover:text-blue-800"
                 >
                   Clear
                 </button>
@@ -290,12 +250,7 @@ const Hotels = () => {
               {/* AMENITIES */}
 
               <div className="mb-7">
-                <h3
-                  className="
-                    mb-4
-                    font-semibold
-                  "
-                >
+                <h3 className="mb-4 font-semibold">
                   Amenities
                 </h3>
 
@@ -306,12 +261,7 @@ const Hotels = () => {
                 ].map((item) => (
                   <label
                     key={item}
-                    className="
-                      mb-3
-                      flex
-                      cursor-pointer
-                      gap-3
-                    "
+                    className="mb-3 flex cursor-pointer gap-3"
                   >
                     <input
                       type="checkbox"
@@ -351,24 +301,16 @@ const Hotels = () => {
                 ].map((item) => (
                   <label
                     key={item.value}
-                    className="
-                      mb-3
-                      flex
-                      cursor-pointer
-                      gap-3
-                    "
+                    className="mb-3 flex cursor-pointer gap-3"
                   >
                     <input
                       type="radio"
                       name="price"
                       checked={
-                        priceRange ===
-                        item.value
+                        priceRange === item.value
                       }
                       onChange={() =>
-                        setPriceRange(
-                          item.value
-                        )
+                        setPriceRange(item.value)
                       }
                     />
 
@@ -380,12 +322,7 @@ const Hotels = () => {
               {/* SORT */}
 
               <div>
-                <h3
-                  className="
-                    mb-4
-                    font-semibold
-                  "
-                >
+                <h3 className="mb-4 font-semibold">
                   Sort By
                 </h3>
 
@@ -394,12 +331,7 @@ const Hotels = () => {
                   onChange={(e) =>
                     setSortBy(e.target.value)
                   }
-                  className="
-                    w-full
-                    rounded-lg
-                    border
-                    p-3
-                  "
+                  className="w-full rounded-lg border p-3"
                 >
                   <option value="">
                     Select
