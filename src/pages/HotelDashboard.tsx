@@ -4,26 +4,19 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
-import { getBookingsByUser } from "../api/bookingApi";
-
-interface DashboardBooking {
-  id: number;
-  hotelName: string;
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-  totalPrice: number;
-  status: string;
-}
+import { getBookingsByOwner } from "../api/bookingApi";
+import type { Booking } from "../api/bookingApi";
+import { getMyHotels } from "../api/hotelApi";
+import type { Hotel } from "../api/hotelApi";
 
 const HotelDashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const [bookings, setBookings] = useState<
-    DashboardBooking[]
-  >([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -33,14 +26,21 @@ const HotelDashboard = () => {
       }
 
       try {
-        const userBookings =
-          await getBookingsByUser(user.id);
+        setError("");
 
-        setBookings(userBookings);
+        const [myHotels, ownerBookings] = await Promise.all([
+          getMyHotels(),
+          getBookingsByOwner(),
+        ]);
+
+        setHotels(myHotels);
+        setBookings(ownerBookings);
       } catch (error) {
-        console.error(
-          "Failed to load dashboard:",
-          error
+        console.error("Failed to load dashboard:", error);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Failed to load dashboard."
         );
       } finally {
         setLoading(false);
@@ -148,6 +148,12 @@ const HotelDashboard = () => {
           </div>
         ) : (
           <>
+            {error && (
+              <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               <div className="rounded-2xl bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between">
@@ -157,7 +163,7 @@ const HotelDashboard = () => {
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold text-gray-800">
-                      0
+                      {hotels.length}
                     </h2>
                   </div>
 

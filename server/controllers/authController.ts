@@ -87,183 +87,57 @@ export const registerUser = async (
   }
 };
 
-// export const loginUser = async (
-//   req: Request,
-//   res: Response
-// ): Promise<void> => {
-//   try {
-//     const {
-//       password,
-//     } = req.body;
-
-//     const email = String(
-//       req.body.email || ""
-//     ).trim().toLowerCase();
-
-//     if (!email || !password) {
-//       res.status(400).json({
-//         message:
-//           "Email and password are required",
-//       });
-//       return;
-//     }
-
-//     const user =
-//       await findUserByEmail(email);
-
-//     if (!user) {
-//       res.status(401).json({
-//         message: "Invalid email or password",
-//       });
-//       return;
-//     }
-
-//     const passwordMatch =
-//       await bcrypt.compare(
-//         password,
-//         user.password
-//       );
-
-//     if (!passwordMatch) {
-//       res.status(401).json({
-//         message: "Invalid email or password",
-//       });
-//       return;
-//     }
-
-//     const secret =
-//       process.env.JWT_SECRET;
-
-//     if (!secret) {
-//       res.status(500).json({
-//         message:
-//           "JWT secret is not configured",
-//       });
-//       return;
-//     }
-
-//     const token = jwt.sign(
-//       {
-//         id: user.id,
-//         role: user.role,
-//       },
-//       secret,
-//       {
-//         expiresIn: "7d",
-//       }
-//     );
-
-//     res.json({
-//       user: {
-//         id: user.id,
-//         name: user.name,
-//         email: user.email,
-//         phone: user.phone,
-//         avatar: user.avatar,
-//         role: user.role,
-//         createdAt: user.created_at,
-//       },
-//       token,
-//     });
-//   } catch (error) {
-//     console.error(
-//       "Error logging in user:",
-//       error
-//     );
-
-//     res.status(500).json({
-//       message: "Failed to login",
-//     });
-//   }
-// };
-
-
 export const loginUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { password } = req.body;
+    const {
+      password,
+    } = req.body;
 
     const email = String(
       req.body.email || ""
     ).trim().toLowerCase();
 
-    console.log("LOGIN EMAIL:", email);
-
     if (!email || !password) {
-      console.log("LOGIN FAILED: Missing email or password");
-
       res.status(400).json({
-        message: "Email and password are required",
+        message:
+          "Email and password are required",
       });
       return;
     }
 
-    const user = await findUserByEmail(email);
-
-    console.log(
-      "USER FOUND:",
-      user ? "YES" : "NO"
-    );
-
-    if (user) {
-      console.log("USER ID:", user.id);
-      console.log("USER ROLE:", user.role);
-      console.log(
-        "PASSWORD HASH EXISTS:",
-        !!user.password
-      );
-      console.log(
-        "PASSWORD HASH LENGTH:",
-        user.password?.length
-      );
-    }
+    const user =
+      await findUserByEmail(email);
 
     if (!user) {
-      console.log("LOGIN FAILED: User not found");
-
       res.status(401).json({
         message: "Invalid email or password",
       });
       return;
     }
 
-    const passwordMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
-
-    console.log(
-      "PASSWORD MATCH:",
-      passwordMatch
-    );
+    const passwordMatch =
+      await bcrypt.compare(
+        password,
+        user.password
+      );
 
     if (!passwordMatch) {
-      console.log(
-        "LOGIN FAILED: Password does not match"
-      );
-
       res.status(401).json({
         message: "Invalid email or password",
       });
       return;
     }
 
-    const secret = process.env.JWT_SECRET;
-
-    console.log(
-      "JWT SECRET EXISTS:",
-      !!secret
-    );
+    const secret =
+      process.env.JWT_SECRET;
 
     if (!secret) {
-      console.log(
-        "LOGIN FAILED: JWT_SECRET is missing"
-      );
-
       res.status(500).json({
-        message: "JWT secret is not configured",
+        message:
+          "JWT secret is not configured",
       });
       return;
     }
@@ -278,8 +152,6 @@ export const loginUser = async (
         expiresIn: "7d",
       }
     );
-
-    console.log("LOGIN SUCCESS");
 
     res.json({
       user: {
